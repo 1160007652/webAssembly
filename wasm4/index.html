@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>wasm</title>
+    <script src="./loader.js"></script>
+</head>
+
+<body>
+    <button class="mybutton">取随机数</button>
+    <script>
+        
+        const imports = {
+            env:{
+                _alert(p){
+                    alert(utf8ToString(p));
+                }
+            }
+        }
+        const wasm = loadWebAssembly('example.wasm');
+        let myButton = document.getElementsByClassName('mybutton')[0];
+        myButton.onclick = function () {
+            wasm.then(module => {
+                // let h = new Uint8Array(module.exports.memory.buffer);
+                module.exports._hello();
+            });
+        }
+    </script>
+</body>
+
+</html>
